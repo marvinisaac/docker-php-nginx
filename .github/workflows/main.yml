@@ -1,0 +1,23 @@
+name: Docker Image CI
+
+on:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    -
+      name: Check out
+      uses: actions/checkout@v2
+    -
+      name: Build the Docker image
+      run: docker build . --file Dockerfile --tag docker-php-nginx:$(date +%s)
+    -
+      name: Push package
+      uses: docker/build-push-action@v1
+      with:
+        repository: marvinisaac/docker-php-nginx/docker-php-nginx
+        tags: $(date +%s)
+        registry: docker.pkg.github.com
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
