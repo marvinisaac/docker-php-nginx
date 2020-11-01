@@ -1,7 +1,9 @@
 name: Docker Image CI
 
 on:
-  workflow_dispatch:
+  push:
+    branches: 
+      - main
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -17,7 +19,7 @@ jobs:
       uses: docker/build-push-action@v1
       with:
         repository: marvinisaac/docker-php-nginx/docker-php-nginx
-        tags: $(date +%s)
+        tags: latest
         registry: docker.pkg.github.com
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
